@@ -3,5 +3,6 @@
 
 ####Requirements:
 
-python 3.7
-requirements.txt
+- python 3.7
+- redis
+- requirements.txt
