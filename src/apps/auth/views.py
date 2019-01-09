@@ -21,10 +21,7 @@ class SignUpView(FormView):
     template_name = 'auth/registration.html'
     success_url = 'success'
 
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.is_active = False
-        user.save()
+    def send_activation_email(self, user):
         current_site = get_current_site(self.request)
         subject = 'Activate Your MySite Account'
         message = render_to_string('auth/account_activation_email.html', {
@@ -34,6 +31,12 @@ class SignUpView(FormView):
             'token': account_activation_token.make_token(user),
         })
         user.email_user(subject, message)
+
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        self.send_activation_email(user)
         return HttpResponseRedirect(self.get_success_url())
 
 
