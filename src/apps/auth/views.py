@@ -37,7 +37,7 @@ class SignUpView(FormView):
         user.is_active = False
         user.save()
         self.send_activation_email(user)
-        return HttpResponseRedirect(self.get_success_url())
+        return super().form_valid(form)
 
 
 class ActivateAccountView(View):
