@@ -55,5 +55,4 @@ class ActivateAccountView(View):
             login(request, user)
             return redirect('signup')
         else:
-            # invalid link
             return render(request, 'auth/base.html')
