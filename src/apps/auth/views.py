@@ -18,8 +18,8 @@ from apps.auth.forms import SignUpForm
 class SignUpView(FormView):
 
     form_class = SignUpForm
-    template_name = "auth/registration.html"
-    success_url = "success"
+    template_name = 'auth/registration.html'
+    success_url = 'success'
 
     def form_valid(self, form):
         user = form.save(commit=False)
