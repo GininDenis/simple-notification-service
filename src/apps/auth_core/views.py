@@ -1,5 +1,4 @@
 from django.contrib.auth import login
-from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
@@ -10,8 +9,9 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
 
-from apps.auth.tokens import account_activation_token
-from apps.auth.forms import SignUpForm
+from apps.auth_core.tokens import account_activation_token
+from apps.auth_core.forms import SignUpForm
+from apps.auth_core.models import User
 
 
 class SignUpView(FormView):

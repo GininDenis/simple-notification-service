@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'apps.auth_core',
     'apps.notifications',
 
 ]
