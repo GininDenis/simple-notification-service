@@ -24,14 +24,14 @@ from apps.users.models import User
 class SignUpView(SuccessMessageMixin, FormView):
 
     form_class = SignUpForm
-    template_name = 'auth/registration.html'
-    success_url = reverse_lazy('signin')
+    template_name = 'users/registration.html'
+    success_url = reverse_lazy('users:signin')
     success_message = 'User created successfully, activation email has been sent'
 
     def send_activation_email(self, user):
         current_site = get_current_site(self.request)
         subject = 'Activate Your MySite Account'
-        message = render_to_string('auth/account_activation_email.html', {
+        message = render_to_string('users/account_activation_email.html', {
             'user': user,
             'domain': current_site.domain,
             'uid': force_text(urlsafe_base64_encode(force_bytes(user.pk))),
@@ -67,18 +67,18 @@ class ActivateAccountView(View):
         else:
             messages.add_message(request, messages.INFO,
                                  _('Invalid activation link'))
-        return redirect(reverse_lazy('signin'))
+        return redirect(reverse_lazy('users:signin'))
 
 
 class SignInView(LoginView):
 
-    template_name = 'auth/login.html'
-    success_url = reverse_lazy('auth_home')
+    template_name = 'users/login.html'
+    success_url = reverse_lazy('users:index')
 
     def get_success_url(self):
         return self.success_url
 
 
-class HomePageView(LoginRequiredMixin, TemplateView):
-    login_url = reverse_lazy('signin')
-    template_name = 'auth/home.html'
+class IndexView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('users:signin')
+    template_name = 'users/index.html'
