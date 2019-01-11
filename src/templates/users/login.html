@@ -1,8 +1,11 @@
-{% extends 'auth/base.html' %}
+{% extends 'users/base.html' %}
 
 {% block content %}
-  <h2>Registration</h2>
+  <h2>Login</h2>
   <form method="post">
+  {% for message in messages %}
+      {{ message }}
+      {% endfor %}
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign up</button>
