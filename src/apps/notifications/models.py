@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from model_utils.choices import Choices
 from model_utils.models import TimeStampedModel
 
 from apps.notifications.utils import generate_key
+from apps.auth_core.models import User
 
 
 class Token(TimeStampedModel):

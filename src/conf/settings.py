@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'apps.auth_core',
     'apps.notifications',
 
 ]
@@ -89,6 +90,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'auth_core.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

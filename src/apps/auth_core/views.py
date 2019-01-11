@@ -1,6 +1,7 @@
 from django.contrib.auth import login
-from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
 from django.views import View
@@ -9,16 +10,19 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 
-from apps.auth.tokens import account_activation_token
-from apps.auth.forms import SignUpForm
+from apps.auth_core.tokens import account_activation_token
+from apps.auth_core.forms import SignUpForm
+from apps.auth_core.models import User
 
 
-class SignUpView(FormView):
+class SignUpView(SuccessMessageMixin, FormView):
 
     form_class = SignUpForm
     template_name = 'auth/registration.html'
-    success_url = 'success'
+    success_url = reverse_lazy('success')
+    success_message = 'Used created successfully'
 
     def send_activation_email(self, user):
         current_site = get_current_site(self.request)
@@ -40,6 +44,7 @@ class SignUpView(FormView):
 
 
 class ActivateAccountView(View):
+
     def get(self, request, uidb64, token):
         try:
             uid = force_text(urlsafe_base64_decode(uidb64))
