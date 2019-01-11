@@ -5,7 +5,7 @@ from model_utils.choices import Choices
 from model_utils.models import TimeStampedModel
 
 from apps.notifications.utils import generate_key
-from apps.auth_core.models import User
+from apps.users.models import User
 
 
 class Token(TimeStampedModel):

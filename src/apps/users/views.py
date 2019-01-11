@@ -1,8 +1,10 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import FormView
 from django.views import View
 from django.utils.encoding import force_text
@@ -10,19 +12,20 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse_lazy
 
-from apps.auth_core.tokens import account_activation_token
-from apps.auth_core.forms import SignUpForm
-from apps.auth_core.models import User
+from apps.users.tokens import account_activation_token
+from apps.users.forms import SignUpForm
+from apps.users.models import User
 
 
 class SignUpView(SuccessMessageMixin, FormView):
 
     form_class = SignUpForm
     template_name = 'auth/registration.html'
-    success_url = reverse_lazy('success')
-    success_message = 'Used created successfully'
+    success_url = reverse_lazy('signin')
+    success_message = 'User created successfully, activation email has been sent'
 
     def send_activation_email(self, user):
         current_site = get_current_site(self.request)
@@ -57,6 +60,20 @@ class ActivateAccountView(View):
             user.is_active = True
             user.save()
             login(request, user)
-            return redirect('signup')
+            messages.add_message(request, messages.INFO,
+                                 _('User activated successfully'))
+
         else:
-            return render(request, 'auth/base.html')
+            messages.add_message(request, messages.INFO,
+                                 _('Invalid activation link'))
+        return redirect(reverse_lazy('signin'))
+
+
+class SignInView(LoginView):
+
+    template_name = 'auth/login.html'
+    success_url = 'success'
+    success_url = reverse_lazy('auth_home')
+
+    def get_success_url(self):
+        return self.success_url
