@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
 
-from apps.auth_core.models import User
+from apps.users.models import User
 
 
 class SignUpForm(UserCreationForm):
