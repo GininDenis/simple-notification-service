@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -78,5 +79,6 @@ class SignInView(LoginView):
         return self.success_url
 
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('signin')
     template_name = 'auth/home.html'

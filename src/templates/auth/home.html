@@ -1,5 +1,10 @@
 {% extends 'auth/base.html' %}
 
 {% block content %}
-    <a>Home</a>
+    <h1>Personal Area</h1>
+    <a href="{% url 'auth_home' %}">Home</a>
+    <a href="{% url 'auth_home' %}">Profile</a>
+    <a href="{% url 'auth_home' %}">Topics</a>
+    <a href="{% url 'auth_home' %}">Payments</a>
+    <a href="{% url 'auth_home' %}">Logout</a>
 {% endblock %}
