@@ -1,9 +1,9 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from django.views.generic.base import TemplateView
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render, redirect
 from django.shortcuts import redirect
 from django.views.generic import FormView
 from django.views import View
@@ -72,8 +72,11 @@ class ActivateAccountView(View):
 class SignInView(LoginView):
 
     template_name = 'auth/login.html'
-    success_url = 'success'
     success_url = reverse_lazy('auth_home')
 
     def get_success_url(self):
         return self.success_url
+
+
+class HomePageView(TemplateView):
+    template_name = 'auth/home.html'
