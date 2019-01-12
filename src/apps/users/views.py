@@ -81,4 +81,4 @@ class SignInView(LoginView):
 
 class IndexView(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy('users:signin')
-    template_name = 'users/index.html'
+    template_name = 'dashboard/index.html'
