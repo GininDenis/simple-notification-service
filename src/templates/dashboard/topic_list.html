@@ -1,0 +1,32 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans 'Topics' %}</h1>
+    {% if topics %}
+        <table id='topics'>
+            <tr>
+                <th>{% trans 'Owner' %}</th>
+                <th>{% trans 'Title' %}</th>
+                <th>{% trans 'Edit' %}</th>
+            </tr>
+            {% for topic in topics %}
+                <tr>
+                    <td>{{ topic.owner }}</td>
+                    <td>{{ topic.title }}</td>
+                    <td>
+                        <a href='{% url 'notifications:topic-update' pk=topic.id %}'>
+                            {% trans 'Edit' %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if is_paginated %}
+            {% include 'includes/pagination.html' %}
+        {% endif %}
+    {% else %}
+        <p>{% trans "No topics" %}</p>
+    {% endif %}
+    <a href='{% url 'notifications:topic-add' %}'>{% trans 'Add new topic' %}</a>
+{% endblock %}
