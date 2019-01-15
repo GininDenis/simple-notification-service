@@ -1,13 +1,11 @@
 {% extends 'dashboard/base.html' %}
+{% load i18n %}
 
 {% block content %}
-  <h2>Login</h2>
+  <h2>{% trans 'Login' %}</h2>
   <form method="post">
-  {% for message in messages %}
-      {{ message }}
-      {% endfor %}
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Sign up</button>
+    <button type="submit">{% trans 'Sign up' %}</button>
   </form>
 {% endblock %}

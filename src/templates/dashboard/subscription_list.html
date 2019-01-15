@@ -1,0 +1,43 @@
+{% extends 'dashboard/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <h1>{% trans 'Subscriptions' %}</h1>
+    {% if subscriptions %}
+        <table id='subscriptions'>
+            <tr>
+                <th>{% trans 'Topic' %}</th>
+                <th>{% trans 'Token' %}</th>
+                <th>{% trans 'Protocol' %}</th>
+                <th>{% trans 'Status' %}</th>
+                <th>{% trans 'Endpoint' %}</th>
+            </tr>
+            {% for subscription in subscriptions %}
+                <tr>
+                    <td>{{ subscription.topic }}</td>
+                    <td>{{ subscription.token }}</td>
+                    <td>{{ subscription.protocol }}</td>
+                    <td>{{ subscription.status }}</td>
+                    <td>{{ subscription.endpoint }}</td>
+                    <td>
+                        <a href='{% url 'notifications:subscription-update' pk=subscription.id %}'>
+                            {% trans 'Edit' %}
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href='{% url 'notifications:subscription-remove' pk=subscription.id %}'>
+                            {% trans 'Remove' %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if is_paginated %}
+            {% include 'includes/pagination.html' %}
+        {% endif %}
+    {% else %}
+        <p>{% trans "No subscriptions" %}</p>
+    {% endif %}
+    <a href='{% url 'notifications:subscription-add' %}'>{% trans 'Add new subscription' %}</a>
+{% endblock %}
