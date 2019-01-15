@@ -52,7 +52,8 @@ class Subscription(TimeStampedModel):
     )
 
     topic = models.ForeignKey(Topic, verbose_name=_('Topic'),
-                              on_delete=models.CASCADE)
+                              on_delete=models.CASCADE,
+                              related_name='subscriptions')
     token = models.CharField(_('Token'), max_length=10, default=generate_key)
     protocol = models.CharField(_('Protocol'), max_length=5,
                                 choices=PROTOCOL_CHOICES)
