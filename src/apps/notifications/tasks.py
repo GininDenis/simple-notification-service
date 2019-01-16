@@ -1,7 +1,7 @@
+import requests
+
 from celery import Celery
 
-app = Celery('sns')
+from apps.notifications.models import Subscription
 
-@app.task
-def add(x, y):
-    return x + y
+app = Celery('sns')
