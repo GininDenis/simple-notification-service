@@ -10,6 +10,7 @@ urlpatterns = [
     path('users/', include('apps.users.urls', namespace='users')),
     path('notifications/',
          include('apps.notifications.urls', namespace='notifications')),
+    path('api/', include('apps.api.urls', namespace='api')),
 ]
 
 if settings.DEBUG:
