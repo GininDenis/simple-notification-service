@@ -1,11 +1,11 @@
-import requests
 from django.urls import reverse
 from django.conf import settings
 
+from apps.notifications.tasks import send_subscription_confirmation
 from apps.notifications.tokens import subscription_activation_token
 
 
-def send_subscription_confirmation(**kwargs):
+def confirm_subscription(**kwargs):
     instance = kwargs.get('instance')
     message = {
         'type': 'SubscriptionConfirmation',
@@ -16,7 +16,7 @@ def send_subscription_confirmation(**kwargs):
 
     token = subscription_activation_token.make_token(instance)
     activate_url = reverse('api:subscription-confirm',
-                                               kwargs={'token': token})
+                           kwargs={'token': token})
 
     message['subscription_url'] = activate_url
 
@@ -24,7 +24,4 @@ def send_subscription_confirmation(**kwargs):
         endpoint = settings.TEST_ENDPOINT_URL
     else:
         endpoint = instance.endpoint
-
-    rs = requests.post(endpoint, data=message)
-    if rs.status_code == 200:
-        return True
+    send_subscription_confirmation.delay(message, endpoint)

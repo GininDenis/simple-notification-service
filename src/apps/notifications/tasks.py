@@ -1,7 +1,10 @@
 import requests
 
-from celery import Celery
+from conf.celery_app import app
 
-from apps.notifications.models import Subscription
 
-app = Celery('sns')
+@app.task
+def send_subscription_confirmation(message, endpoint):
+    rs = requests.post(endpoint, data=message)
+    if rs.status_code == 200:
+        return True

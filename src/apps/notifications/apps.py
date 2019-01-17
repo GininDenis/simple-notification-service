@@ -2,7 +2,7 @@ from django.apps import AppConfig
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 
-from apps.notifications.signal_handlers import send_subscription_confirmation
+from apps.notifications.signal_handlers import confirm_subscription
 
 class NotificationConfig(AppConfig):
     name = 'apps.notifications'
@@ -10,4 +10,4 @@ class NotificationConfig(AppConfig):
 
     def ready(self):
         subscription = self.get_model('Subscription')
-        post_save.connect(send_subscription_confirmation, sender=subscription)
+        post_save.connect(confirm_subscription, sender=subscription)
