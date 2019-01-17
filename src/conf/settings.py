@@ -140,6 +140,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = reverse_lazy('users:signin')
 
+SUBSCRIPTION_ENDPOINT_DEBUG = True
+
+TEST_ENDPOINT_URL = 'http://localhost:8000/api/test/endpoint/'
+
 try:
     from .settings_local import *
 except ImportError:
