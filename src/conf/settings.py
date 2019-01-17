@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -60,6 +61,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'conf.urls'
+
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -143,6 +146,26 @@ LOGIN_URL = reverse_lazy('users:signin')
 SUBSCRIPTION_ENDPOINT_DEBUG = True
 
 TEST_ENDPOINT_URL = 'http://localhost:8000/api/test/endpoint/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'api_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR,'logs/api_debug.log'),
+        },
+    },
+    'loggers': {
+        'api_debug': {
+            'handlers': ['api_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 
 try:
     from .settings_local import *
