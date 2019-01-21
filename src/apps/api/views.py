@@ -13,12 +13,6 @@ from apps.notifications.models import Subscription
 logger = logging.getLogger('api_debug')
 
 
-class SubscriptionConfirmView(APIView):
-
-    def post(self, request, token):
-        logger.debug(token)
-        return Response(data={'ok':'ok'}, status=HTTP_200_OK)
-
 class TestEndpointView(APIView):
 
     def post(self, request):
