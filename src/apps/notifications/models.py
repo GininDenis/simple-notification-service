@@ -64,7 +64,7 @@ class Subscription(TimeStampedModel):
     error_msg = models.TextField(verbose_name=_('Error message'), null=True,
                                  blank=True, default=None)
     attempts_count = models.PositiveSmallIntegerField(
-        verbose_name=_('Attempts count'), default=1)
+        verbose_name=_('Attempts count'), default=0)
 
     class Meta:
         verbose_name = _('Subscription')
