@@ -1,9 +1,11 @@
-from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 from apps.notifications.models import Subscription
 
 
-class SubscriptionSerializer(ModelSerializer):
+class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = ['protocol', 'endpoint', 'topic', 'id']
@@ -18,3 +20,19 @@ class SubscriptionSerializer(ModelSerializer):
                 'write_only': True
             }
         }
+
+
+class ConfirmationSerializer(serializers.Serializer):
+
+    subscription = serializers.PrimaryKeyRelatedField(
+        queryset=Subscription.objects.all()
+    )
+    token = serializers.CharField()
+
+    def validate(self, attrs):
+        subscription = attrs.get('subscription')
+        token = attrs.get('token')
+
+        if subscription.token != token:
+            raise ValidationError({'token': _('Invalid token')})
+        return attrs

@@ -5,12 +5,11 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from django.core.exceptions import ObjectDoesNotExist
 
-from apps.api.serializers import SubscriptionSerializer
+from apps.api.serializers import SubscriptionSerializer, ConfirmationSerializer
 from apps.notifications.models import Subscription
 
-logger = logging.getLogger('api_debug')
+logger = logging.getLogger(__file__)
 
 
 class TestEndpointView(APIView):
@@ -30,17 +29,11 @@ class ConfirmApiView(APIView):
 
     def post(self, request):
 
-        try:
-            subscription_id = request.data['subscription_id']
-            token = request.data['token']
-            subscription = Subscription.objects.get(id=subscription_id)
-        except (KeyError, ObjectDoesNotExist):
-            return Response({}, status=HTTP_400_BAD_REQUEST)
+        serializer = ConfirmationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        if subscription.token == token:
-            subscription.status = Subscription.STATUS_CHOICES.confirmed
-            subscription.save()
-        else:
-            return Response({}, status=HTTP_400_BAD_REQUEST)
+        subscription = serializer.validated_data.get('subscription')
+        subscription.status = Subscription.STATUS_CHOICES.confirmed
+        subscription.save()
 
         return Response({}, status=HTTP_200_OK)

@@ -152,15 +152,15 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'api_debug': {
+        'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR,'logs/api_debug.log'),
+            'filename': os.path.join(BASE_DIR,'logs/info.log'),
         },
     },
     'loggers': {
-        'api_debug': {
-            'handlers': ['api_debug'],
+        '': {
+            'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
         },
