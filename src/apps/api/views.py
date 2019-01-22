@@ -35,6 +35,6 @@ class ConfirmApiView(APIView):
 
         subscription = serializer.validated_data['subscription']
         subscription.status = Subscription.STATUS_CHOICES.confirmed
-        subscription.save()
+        subscription.save(update_fields=['status'])
 
         return Response({}, status=HTTP_200_OK)
