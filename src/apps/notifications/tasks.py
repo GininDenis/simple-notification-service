@@ -26,10 +26,15 @@ def send_subscription_confirmation(object_id):
     site = Site.objects.get_current()
     message['subscription_url'] = urljoin(site.domain, activate_url)
 
-    if settings.SUBSCRIPTION_ENDPOINT_DEBUG and settings.TEST_ENDPOINT_URL:
+    if settings.SUBSCRIPTION_ENDPOINT_DEBUG:
+        assert settings.TEST_ENDPOINT_URL
         endpoint = settings.TEST_ENDPOINT_URL
     else:
         endpoint = instance.endpoint
+    instance.attempts_count += 1
     rs = requests.post(endpoint, data=message)
-    if rs.status_code == 200:
-        return True
+    if rs.status_code not in [200, 201, 202]:
+        instance.error_msg = rs.status_code
+    else:
+        instance.error_msg = None
+    instance.save(force_update=True)

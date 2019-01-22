@@ -22,8 +22,9 @@ class TestEndpointView(APIView):
 class SubscriptionViewSet(CreateModelMixin, DestroyModelMixin, GenericViewSet):
 
     serializer_class = SubscriptionSerializer
-    queryset = Subscription.objects.all()
 
+    def get_queryset(self):
+        return Subscription.objects.filter(topic__owner=self.request.user)
 
 class ConfirmApiView(APIView):
 
@@ -32,7 +33,7 @@ class ConfirmApiView(APIView):
         serializer = ConfirmationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        subscription = serializer.validated_data.get('subscription')
+        subscription = serializer.validated_data['subscription']
         subscription.status = Subscription.STATUS_CHOICES.confirmed
         subscription.save()
 
