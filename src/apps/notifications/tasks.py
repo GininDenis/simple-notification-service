@@ -27,8 +27,8 @@ def send_subscription_confirmation(object_id):
     message['subscription_url'] = urljoin(site.domain, activate_url)
 
     if settings.SUBSCRIPTION_ENDPOINT_DEBUG:
-        assert (settings.TEST_ENDPOINT_URL,
-                'You have to define TEST_ENDPOINT_URL in settings when SUBSCRIPTION_ENDPOINT_DEBUG is True')
+        assert settings.TEST_ENDPOINT_URL, \
+                'You have to define TEST_ENDPOINT_URL in settings when SUBSCRIPTION_ENDPOINT_DEBUG is True'
         endpoint = settings.TEST_ENDPOINT_URL
     else:
         endpoint = instance.endpoint
@@ -38,4 +38,4 @@ def send_subscription_confirmation(object_id):
         instance.error_msg = json.dumps(rs.json())
     else:
         instance.error_msg = None
-    instance.save(force_update=True)
+    instance.save(update_fields=['error_msg', 'attempts_count'])

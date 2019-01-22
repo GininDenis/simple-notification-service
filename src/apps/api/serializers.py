@@ -30,8 +30,8 @@ class ConfirmationSerializer(serializers.Serializer):
     token = serializers.CharField()
 
     def validate(self, attrs):
-        subscription = attrs.get('subscription')
-        token = attrs.get('token')
+        subscription = attrs['subscription']
+        token = attrs['token']
 
         if subscription.token != token:
             raise ValidationError({'token': _('Invalid token')})

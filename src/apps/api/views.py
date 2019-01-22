@@ -13,23 +13,20 @@ logger = logging.getLogger(__file__)
 
 
 class TestEndpointView(APIView):
-
     def post(self, request):
         logger.debug(request.POST)
         return Response(data={}, status=HTTP_200_OK)
 
 
 class SubscriptionViewSet(CreateModelMixin, DestroyModelMixin, GenericViewSet):
-
     serializer_class = SubscriptionSerializer
 
     def get_queryset(self):
         return Subscription.objects.filter(topic__owner=self.request.user)
 
+
 class ConfirmApiView(APIView):
-
     def post(self, request):
-
         serializer = ConfirmationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
