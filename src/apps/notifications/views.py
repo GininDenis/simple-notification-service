@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.contrib import messages
+from rest_framework.views import APIView
 
 from apps.notifications.models import Topic, Subscription
 from apps.notifications.forms import SubscriptionUpdateForm

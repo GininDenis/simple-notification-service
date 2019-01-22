@@ -61,6 +61,10 @@ class Subscription(TimeStampedModel):
                               choices=STATUS_CHOICES,
                               default=STATUS_CHOICES.pending)
     endpoint = models.URLField(_('Endpoint'))
+    error_msg = models.TextField(verbose_name=_('Error message'), null=True,
+                                 blank=True, default=None)
+    attempts_count = models.PositiveSmallIntegerField(
+        verbose_name=_('Attempts count'), default=0)
 
     class Meta:
         verbose_name = _('Subscription')

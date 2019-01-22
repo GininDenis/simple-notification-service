@@ -6,3 +6,5 @@ src/conf/settings_local\.py
 *.pyc
 
 *.sqlite3
+
+*.log

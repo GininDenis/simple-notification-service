@@ -8,8 +8,8 @@ urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),
     path('admin/', admin.site.urls),
     path('users/', include('apps.users.urls', namespace='users')),
-    path('notifications/',
-         include('apps.notifications.urls', namespace='notifications')),
+    path('notifications/', include('apps.notifications.urls', namespace='notifications')),
+    path('api/', include('apps.api.urls', namespace='api')),
 ]
 
 if settings.DEBUG:
