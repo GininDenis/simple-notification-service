@@ -1,4 +1,5 @@
 import requests
+import json
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.sites.models import Site
@@ -11,7 +12,6 @@ from conf.celery_app import app
 
 @app.task
 def send_subscription_confirmation(object_id):
-
     instance = Subscription.objects.get(id=object_id)
     message = {
         'type': 'SubscriptionConfirmation',
@@ -27,14 +27,15 @@ def send_subscription_confirmation(object_id):
     message['subscription_url'] = urljoin(site.domain, activate_url)
 
     if settings.SUBSCRIPTION_ENDPOINT_DEBUG:
-        assert settings.TEST_ENDPOINT_URL
+        assert (settings.TEST_ENDPOINT_URL,
+                'You have to define TEST_ENDPOINT_URL in settings when SUBSCRIPTION_ENDPOINT_DEBUG is True')
         endpoint = settings.TEST_ENDPOINT_URL
     else:
         endpoint = instance.endpoint
     instance.attempts_count += 1
     rs = requests.post(endpoint, data=message)
-    if rs.status_code not in [200, 201, 202]:
-        instance.error_msg = rs.status_code
+    if rs.status_code != 200:
+        instance.error_msg = json.dumps(rs.json())
     else:
         instance.error_msg = None
     instance.save(force_update=True)

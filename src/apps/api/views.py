@@ -37,4 +37,4 @@ class ConfirmApiView(APIView):
         subscription.status = Subscription.STATUS_CHOICES.confirmed
         subscription.save(update_fields=['status'])
 
-        return Response({}, status=HTTP_200_OK)
+        return Response({})
