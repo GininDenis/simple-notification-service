@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from apps.users.forms import SignUpForm
 from apps.users.models import User
 
 
 class UserAdmin(admin.ModelAdmin):
     add_form_template = 'admin/auth/user/add_form.html'
+    add_form = SignUpForm
     change_user_password_template = None
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
