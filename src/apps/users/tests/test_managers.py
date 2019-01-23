@@ -14,16 +14,16 @@ class UserManagerTest(TestCase):
 
     def validate_user(self, user):
         self.assertEqual(user.email, self.TEST_DATA['email'])
-        self.assertEqual(user.check_password(self.TEST_DATA['password']), True)
+        self.assertTrue(user.check_password(self.TEST_DATA['password']))
 
     def test_create_user(self):
         user = self.test_manager.create_user(**self.TEST_DATA)
         self.validate_user(user)
-        self.assertEqual(user.is_staff, False)
-        self.assertEqual(user.is_superuser, False)
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
 
     def test_create_superuser(self):
         user = self.test_manager.create_superuser(**self.TEST_DATA)
         self.validate_user(user)
-        self.assertEqual(user.is_staff, True)
-        self.assertEqual(user.is_superuser, True)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
