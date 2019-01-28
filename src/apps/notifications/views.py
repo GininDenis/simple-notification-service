@@ -1,15 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.contrib import messages
-from rest_framework.views import APIView
 
 from apps.notifications.models import Topic, Subscription
 from apps.notifications.forms import SubscriptionUpdateForm
+from apps.notifications.tokens import subscription_activation_token
 
 
 class TopicListView(LoginRequiredMixin, ListView):
@@ -102,3 +105,21 @@ class SubscriptionRemoveView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+
+
+class SubscriptionConfirmView(View):
+
+    def post(self, uid, token):
+        try:
+            id = force_text(urlsafe_base64_decode(uid))
+            subscription = Subscription.objects.get(pk=id)
+        except (
+        TypeError, ValueError, OverflowError, Subscription.DoesNotExist):
+            subscription = None
+
+        if subscription is not None and subscription_activation_token.check_token(
+                subscription,
+                token):
+            subscription.status = Subscription.STATUS_CHOICES.confirmed
+            subscription.save()
+        return HttpResponseRedirect(reverse('users:index'))

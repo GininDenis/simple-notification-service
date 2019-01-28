@@ -14,4 +14,4 @@ class SubscriptionUpdateForm(forms.ModelForm):
         self.current_user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['topic'].queryset = Topic.objects.filter(
-            owner=self.current_user)
+            owner__id=self.current_user.id)

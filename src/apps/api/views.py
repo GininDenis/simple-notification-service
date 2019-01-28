@@ -25,7 +25,7 @@ class SubscriptionViewSet(CreateModelMixin, DestroyModelMixin, GenericViewSet):
         return Subscription.objects.filter(topic__owner=self.request.user)
 
 
-class ConfirmApiView(APIView):
+class ConfirmSubscriptionApiView(APIView):
     def post(self, request):
         serializer = ConfirmationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
