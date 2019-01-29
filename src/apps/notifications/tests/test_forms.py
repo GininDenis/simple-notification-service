@@ -6,13 +6,11 @@ from apps.notifications.models import Topic
 from apps.users.models import User
 
 
-class SubscriptionUpdateFormTest(TestCase):
-
+class SubscriptionUpdateFormTestCase(TestCase):
 
     def setUp(self):
         for user in mommy.make(User, _quantity=3):
             mommy.make(Topic,owner=user, _quantity=3)
-
 
     def test_init(self):
         user = User.objects.first()

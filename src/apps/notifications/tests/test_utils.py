@@ -5,7 +5,7 @@ from django.test import TestCase
 from apps.notifications.utils import generate_key
 
 
-class UtilsTest(TestCase):
+class UtilsTestCase(TestCase):
 
     def test_generate_key(self):
 

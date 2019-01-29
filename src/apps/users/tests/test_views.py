@@ -12,7 +12,7 @@ from apps.users.models import User
 from apps.users.tokens import account_activation_token
 
 
-class SignUpViewTest(TestCase):
+class SignUpViewTestCase(TestCase):
     TEST_DATA = {
         'email': 'test@test.test',
         'password': 'testpassword'
@@ -35,7 +35,7 @@ class SignUpViewTest(TestCase):
         self.assertEqual(mail.outbox[0].subject, 'Activate Your MySite Account')
 
 
-class ActivateAccountViewTest(TestCase):
+class ActivateAccountViewTestCase(TestCase):
     TEST_DATA = {
         'email': 'test@test.test',
         'password': 'testpassword'

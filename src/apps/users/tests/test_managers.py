@@ -3,7 +3,7 @@ from django.test import TestCase
 from apps.users.models import User
 
 
-class UserManagerTest(TestCase):
+class UserManagerTestCase(TestCase):
     TEST_DATA = {
         'email': 'test@test.test',
         'password': 'testpassword'

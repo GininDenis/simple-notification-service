@@ -4,7 +4,7 @@ from apps.users.tokens import AccountActivationTokenGenerator
 from apps.users.models import User
 
 
-class TokenTest(TestCase):
+class TokenTestCase(TestCase):
     TEST_DATA = {
         'email': 'test@test.test',
         'password': 'testpassword'

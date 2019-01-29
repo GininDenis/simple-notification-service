@@ -7,7 +7,7 @@ from apps.users.models import User
 from apps.users.admin import UserAdmin
 
 
-class UserAdminTest(TestCase):
+class UserAdminTestCase(TestCase):
     TEST_DATA = {
         'email': 'test@test.test',
         'password': 'testpassword',

@@ -5,7 +5,7 @@ from apps.notifications.models import Subscription
 from apps.notifications.signal_handlers import confirm_subscription
 
 
-class NotificationConfigTest(TestCase):
+class NotificationConfigTestCase(TestCase):
 
     def test_ready(self):
         self.assertIn(confirm_subscription,

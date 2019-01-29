@@ -14,7 +14,7 @@ from apps.notifications.models import Subscription
 ENDPOINT_URL = 'http://test.test/test/'
 
 
-class SubscriptionConfirmationTest(TestCase):
+class SubscriptionConfirmationTestCase(TestCase):
 
     def setUp(self):
         self.subscription = mommy.make(Subscription)

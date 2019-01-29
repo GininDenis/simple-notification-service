@@ -4,7 +4,7 @@ from django.core import mail
 from apps.users.models import User
 
 
-class UserModelTest(TestCase):
+class UserModelTestCase(TestCase):
 
     TEST_DATA = {
         'email': 'test@test.test',
