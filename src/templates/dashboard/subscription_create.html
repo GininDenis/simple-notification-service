@@ -1,10 +1,24 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
+{% block nav %}
+     <h1 class="display-4 text-center mb-3">{% trans 'Create subscription' %}</h1>
+    <div class="col-2 float-left" role="navigation">
+        {% include 'dashboard/navigation.html' %}
+</div>
+{% endblock %}
+
 {%  block content %}
-    <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-      <button type="submit">{% trans 'Create' %}</button>
-    </form>
+    <div class="col-8 float-left">
+         <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <p class="font-weight-bold">{{ field.label_tag }}</p>
+                    {{ field }}
+                </div>
+             {% endfor %}
+            <button class="btn btn-outline-success" type="submit">{% trans 'Create' %}</button>
+        </form>
+    </div>
 {% endblock %}
