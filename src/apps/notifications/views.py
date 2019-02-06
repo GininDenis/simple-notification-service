@@ -38,7 +38,7 @@ class TopicUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
 class TopicCreateView(LoginRequiredMixin, CreateView):
     model = Topic
-    template_name = 'dashboard/topic_update.html'
+    template_name = 'dashboard/topic_create.html'
     fields = ['title']
     success_url = reverse_lazy('notifications:topic-list')
     success_message = _('Topic created successfully.')
