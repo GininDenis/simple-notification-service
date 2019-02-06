@@ -1,11 +1,23 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
-
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/login.css' %}">
+{% endblock %}
 {% block content %}
-  <h2>{% trans 'Login' %}</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% trans 'Sign up' %}</button>
-  </form>
+    <div class="d-flex align-items-center flex-column justify-content-center h-100 bg-dark text-white">
+        <h2 class="display-4">{% trans 'Login' %}</h2>
+        <form method="post" class="mt-5" id="login-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.errors }}
+                    {{ field.label_tag }}{{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-outline-light btn-lg btn-block">
+                {% trans 'Sign up' %}
+            </button>
+        </form>
+    </div>
 {% endblock %}

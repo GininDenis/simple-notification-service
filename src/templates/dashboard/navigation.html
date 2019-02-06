@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+    <a class="nav-link bg-dark text-white mt-1" href="{% url 'users:index' %}" role="tab">{% trans 'Home' %}</a>
+    <a class="nav-link bg-dark text-white mt-1" href="{% url 'users:index' %}" role="tab">{% trans 'Profile' %}</a>
+    <a class="nav-link bg-dark text-white mt-1" href="{% url 'notifications:topic-list' %}" role="tab">{% trans 'Topics' %}</a>
+    <a class="nav-link bg-dark text-white mt-1" href="{% url 'notifications:subscription-list' %}" role="tab">{% trans 'Subscriptions' %}</a>
+    <a class="nav-link bg-dark text-white mt-1" href="{% url 'users:index' %}" role="tab">{% trans 'Payments' %}</a>
+    <a class="nav-link bg-dark text-white mt-1" href="{% url 'users:index' %}" role="tab">{% trans 'Logout' %}</a>
+</div>

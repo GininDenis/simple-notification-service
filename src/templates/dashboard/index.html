@@ -1,12 +1,10 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
-{% block content %}
-    <h1>{% trans 'Personal Area' %}</h1>
-    <a href="{% url 'users:index' %}">{% trans 'Home' %}</a>
-    <a href="{% url 'users:index' %}">{% trans 'Profile' %}</a>
-    <a href="{% url 'notifications:topic-list' %}">{% trans 'Topics' %}</a>
-    <a href="{% url 'notifications:subscription-list' %}">{% trans 'Subscriptions' %}</a>
-    <a href="{% url 'users:index' %}">{% trans 'Payments' %}</a>
-    <a href="{% url 'users:index' %}">{% trans 'Logout' %}</a>
+
+{% block nav %}
+<div class="col-3" role="navigation">
+         <h1 class="display-4 mb-5">{% trans 'Personal Area' %}</h1>
+        {% include 'dashboard/navigation.html' %}
+</div>
 {% endblock %}
