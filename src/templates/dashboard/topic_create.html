@@ -1,22 +1,20 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
-{% block nav %}
-     <h1 class="display-4 text-center mb-3">{% trans 'Create topic' %}</h1>
-    <div class="col-2 float-left" role="navigation">
-        {% include 'dashboard/navigation.html' %}
-</div>
+{% block header %}
+    <h1 class="display-4 text-center mb-3">{% trans 'Create topic' %}</h1>
 {% endblock %}
 
-{%  block content %}
+{% block content %}
     <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-                <div class="form-group">
-                    <p class="font-weight-bold">{{ field.label_tag }}</p>
-                    {{ field }}
-                </div>
-             {% endfor %}
-      <button type="submit" class="btn btn-outline-success">{% trans 'Create' %}</button>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <p class="font-weight-bold">{{ field.label_tag }}</p>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit"
+                class="btn btn-outline-success">{% trans 'Create' %}</button>
     </form>
 {% endblock %}

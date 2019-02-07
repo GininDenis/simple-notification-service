@@ -1,18 +1,15 @@
 {% extends 'dashboard/index.html' %}
 {% load i18n %}
 
-{% block nav %}
+{% block header %}
     <h1 class="display-4 text-center mb-3">{% trans 'Subscriptions' %}</h1>
-    <div class="col-2 float-left" role="navigation">
-        {% include 'dashboard/navigation.html' %}
-    </div>
 {% endblock %}
 
 {% block content %}
     <div class="col-10 float-right">
-    {% if subscriptions %}
-        <table id='subscriptions' class="table table-sm table-hover">
-            <thead class="thead-dark">
+        {% if subscriptions %}
+            <table id='subscriptions' class="table table-sm table-hover">
+                <thead class="thead-dark">
                 <tr>
                     <th>{% trans 'Topic' %}</th>
                     <th>{% trans 'Token' %}</th>
@@ -22,36 +19,39 @@
                     <th></th>
                     <th></th>
                 </tr>
-            </thead>
-            {% for subscription in subscriptions %}
-                <tr>
-                    <td>{{ subscription.topic }}</td>
-                    <td>{{ subscription.token }}</td>
-                    <td>{{ subscription.protocol }}</td>
-                    <td>{{ subscription.status }}</td>
-                    <td>{{ subscription.endpoint }}</td>
-                    <td>
-                        <a href='{% url 'notifications:subscription-update' pk=subscription.id %}'
-                            class="btn btn-sm btn-outline-warning"
-                        >
-                            <i class="far fa-edit"></i>
-                        </a>
-                    </td>
+                </thead>
+                {% for subscription in subscriptions %}
+                    <tr>
+                        <td>{{ subscription.topic }}</td>
+                        <td>{{ subscription.token }}</td>
+                        <td>{{ subscription.protocol }}</td>
+                        <td>{{ subscription.status }}</td>
+                        <td>{{ subscription.endpoint }}</td>
+                        <td>
+                            <a href='{% url 'notifications:subscription-update' pk=subscription.id %}'
+                               class="btn btn-sm btn-outline-warning">
+                                <i class="far fa-edit"></i>
+                            </a>
+                        </td>
 
-                    <td>
-                        <a href='{% url 'notifications:subscription-remove' pk=subscription.id %}' class=" btn btn-sm btn-outline-danger">
-                            <i class="far fa-trash-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        {% if is_paginated %}
-            {% include 'includes/pagination.html' %}
+                        <td>
+                            <a href='{% url 'notifications:subscription-remove' pk=subscription.id %}'
+                               class=" btn btn-sm btn-outline-danger">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if is_paginated %}
+                {% include 'includes/pagination.html' %}
+            {% endif %}
+        {% else %}
+            <p>{% trans "No subscriptions" %}</p>
         {% endif %}
-    {% else %}
-        <p>{% trans "No subscriptions" %}</p>
-    {% endif %}
-        <a href='{% url 'notifications:subscription-add' %}' class="btn btn-outline-success"><i class="fas fa-plus">&nbsp;</i>{% trans 'Add new subscription' %}</a>
+        <a href='{% url 'notifications:subscription-add' %}'
+           class="btn btn-outline-success"><i
+                class="fas fa-plus">&nbsp;</i>{% trans 'Add new subscription' %}
+        </a>
     </div>
 {% endblock %}
