@@ -21,9 +21,9 @@ class UserModelTestCase(TestCase):
         self.assertEqual(self.user.email, 'test@ww.ss')
 
     def test_get_full_name(self):
-        self.assertEqual(self.user.get_full_name(),
-                         '{} {}'.format(self.TEST_DATA['first_name'],
-                                        self.TEST_DATA['last_name']))
+        full_name = '{} {}'.format(self.TEST_DATA['first_name'],
+                                   self.TEST_DATA['last_name'])
+        self.assertEqual(self.user.get_full_name(), full_name)
 
     def test_get_short_name(self):
         self.assertEqual(self.user.get_short_name(),

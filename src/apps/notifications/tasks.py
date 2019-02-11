@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from rest_framework import status
 
 from apps.notifications.models import Subscription
 from apps.notifications.tokens import subscription_activation_token
@@ -43,7 +44,7 @@ def send_subscription_confirmation(object_id):
     instance, message = create_message(object_id)
     instance.attempts_count += 1
     rs = requests.post(get_endpoint(instance), data=message)
-    if rs.status_code != 200:
+    if rs.status_code != status.HTTP_200_OK:
         instance.error_msg = rs.text
     else:
         instance.error_msg = None

@@ -7,6 +7,7 @@ from requests import Response
 from django.contrib.sites.models import Site
 from model_mommy import mommy
 from mock import patch
+from rest_framework import status
 
 from apps.notifications.tasks import (
     get_endpoint, create_message, send_subscription_confirmation
@@ -45,7 +46,7 @@ class SubscriptionConfirmationTestCase(TestCase):
     def test_send_subscription_confirmation(self, mock_post):
         error_message = {'Status': 'Error'}
         response = Response()
-        response.status_code = 400
+        response.status_code = status.HTTP_400_BAD_REQUEST
         response.headers['Content-Type'] = 'application/json'
         response._content = json.dumps(error_message).encode()
         mock_post.return_value = response

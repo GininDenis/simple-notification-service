@@ -1,11 +1,12 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls import reverse
-from django.core import mail
 from django.contrib.sites.models import Site
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.http.response import HttpResponse
 from mock import patch
+from rest_framework import status
 
 from apps.users import views
 from apps.users.models import User
@@ -30,7 +31,7 @@ class SignUpViewTestCase(TestCase):
         url = reverse('users:signup')
         response = self.client.post(url, data=self.TEST_DATA)
 
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
         self.assertTrue(User.objects.filter(
             email=self.TEST_DATA['email']).exists())
@@ -39,13 +40,14 @@ class SignUpViewTestCase(TestCase):
         self.assertFalse(user.is_active)
         mocked_method_email.assert_called_once_with(user)
 
-    def test_signup_incorrect_email(self):
+    @patch.object(views.SignUpView, 'form_invalid',
+                  return_value=HttpResponse())
+    def test_signup_incorrect_email(self, mocked_form_invalid):
         url = reverse('users:signup')
         data = dict(self.TEST_DATA, email='test')
-        response = self.client.post(url, data=data)
+        self.client.post(url, data=data)
 
-        self.assertEqual(response.status_code, 200)
-
+        mocked_form_invalid.assert_called_once()
         with self.assertRaises(User.DoesNotExist):
             User.objects.get(email=data['email'])
 
