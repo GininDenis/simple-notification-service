@@ -3,12 +3,14 @@ import json
 from collections import namedtuple
 
 from django.test import TestCase, override_settings
+from requests import Response
 from django.contrib.sites.models import Site
 from model_mommy import mommy
 from mock import patch
 
-from apps.notifications.tasks import get_endpoint, create_message, \
-    send_subscription_confirmation
+from apps.notifications.tasks import (
+    get_endpoint, create_message, send_subscription_confirmation
+)
 from apps.notifications.models import Subscription
 
 ENDPOINT_URL = 'http://test.test/test/'
@@ -41,12 +43,14 @@ class SubscriptionConfirmationTestCase(TestCase):
 
     @patch('apps.notifications.tasks.requests.post')
     def test_send_subscription_confirmation(self, mock_post):
-        error_msg = lambda : {'Status': 'Error'}
-        response = namedtuple('response', 'status_code, json')
+        error_message = {'Status': 'Error'}
+        response = Response()
         response.status_code = 400
-        response.json = error_msg
+        response.headers['Content-Type'] = 'application/json'
+        response._content = json.dumps(error_message).encode()
         mock_post.return_value = response
+
         send_subscription_confirmation(self.subscription.id)
         self.subscription.refresh_from_db()
-        self.assertEqual(self.subscription.error_msg, json.dumps(error_msg()))
-        
+        self.assertEqual(self.subscription.error_msg,
+                         json.dumps(error_message))

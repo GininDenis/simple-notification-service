@@ -21,7 +21,7 @@ class SubscriptionConfirmTestCase(TestCase):
         self.request.user = self.user
         self.view = views.SubscriptionConfirmView(request=self.request)
 
-    def test_post(self):
+    def test_subscription_confirm(self):
         token = subscription_activation_token.make_token(self.subscription)
         uid = urlsafe_base64_encode(force_bytes(self.subscription.pk)).decode(
             'utf-8')

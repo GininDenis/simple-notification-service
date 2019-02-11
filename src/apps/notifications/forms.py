@@ -16,4 +16,4 @@ class SubscriptionUpdateForm(forms.ModelForm):
         self.fields['protocol'].widget.attrs['class'] = 'custom-select'
         self.fields['endpoint'].widget.attrs['class'] = 'form-control'
         self.fields['topic'].queryset = Topic.objects.filter(
-            owner__id=self.current_user.id)
+            owner_id=self.current_user.id)

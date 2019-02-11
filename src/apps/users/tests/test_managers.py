@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from apps.users.managers import UserManager
 from apps.users.models import User
 
 
@@ -10,7 +11,8 @@ class UserManagerTestCase(TestCase):
     }
 
     def setUp(self):
-        self.test_manager = User.objects
+        self.test_manager = UserManager()
+        self.test_manager.model = User
 
     def validate_user(self, user):
         self.assertEqual(user.email, self.TEST_DATA['email'])

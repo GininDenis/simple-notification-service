@@ -44,7 +44,7 @@ def send_subscription_confirmation(object_id):
     instance.attempts_count += 1
     rs = requests.post(get_endpoint(instance), data=message)
     if rs.status_code != 200:
-        instance.error_msg = json.dumps(rs.json())
+        instance.error_msg = rs.text
     else:
         instance.error_msg = None
     instance.save(update_fields=['error_msg', 'attempts_count'])

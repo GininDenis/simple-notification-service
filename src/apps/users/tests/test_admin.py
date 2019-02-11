@@ -22,11 +22,15 @@ class UserAdminTestCase(TestCase):
         self.rf = RequestFactory()
 
     def test_get_fieldsets(self):
-        template = ((
-                        None, {
-                            'classes': ('wide',),
-                            'fields': ('email', 'password1', 'password2')
-                        }),)
+        template = (
+            (
+                None,
+                {
+                    'classes': ('wide', ),
+                    'fields': ('email', 'password1', 'password2')
+                }
+            ),
+        )
 
         request = self.rf.get(reverse('admin:login'))
         self.assertEqual(self.ua.get_fieldsets(request), template)

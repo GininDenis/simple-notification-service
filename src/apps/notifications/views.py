@@ -109,6 +109,8 @@ class SubscriptionRemoveView(LoginRequiredMixin, DeleteView):
 
 class SubscriptionConfirmView(View):
 
+    redirect_url = reverse_lazy('users:index')
+
     def post(self, uid, token):
         try:
             id = force_text(urlsafe_base64_decode(uid))
@@ -122,4 +124,4 @@ class SubscriptionConfirmView(View):
                 token):
             subscription.status = Subscription.STATUS_CHOICES.confirmed
             subscription.save()
-        return HttpResponseRedirect(reverse('users:index'))
+        return HttpResponseRedirect(self.redirect_url)
