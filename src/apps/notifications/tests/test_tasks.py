@@ -52,5 +52,5 @@ class SubscriptionConfirmationTestCase(TestCase):
 
         send_subscription_confirmation(self.subscription.id)
         self.subscription.refresh_from_db()
-        self.assertEqual(self.subscription.error_msg,
-                         json.dumps(error_message))
+        self.assertDictEqual(json.loads(self.subscription.error_msg),
+                             error_message)

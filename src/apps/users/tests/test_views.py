@@ -15,24 +15,39 @@ from apps.users.tokens import account_activation_token
 class SignUpViewTestCase(TestCase):
     TEST_DATA = {
         'email': 'test@test.test',
-        'password': 'testpassword'
+        'password1': 'testpassword',
+        'password2': 'testpassword'
     }
 
     def setUp(self):
         self.request_factory = RequestFactory()
-        self.user = User.objects.create(**self.TEST_DATA)
-        self.request = self.request_factory.get(reverse('admin:login'))
-        self.request.user = self.user
-        self.view = views.SignUpView(request=self.request)
         site = Site.objects.get_current()
         site.domain = 'http://test.com/'
         site.save()
 
+    @patch.object(views.SignUpView, 'send_activation_email')
+    def test_signup_successful(self, mocked_method_email):
+        url = reverse('users:signup')
+        response = self.client.post(url, data=self.TEST_DATA)
 
-    def test_send_activation_email(self):
-        self.view.send_activation_email(self.user)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'Activate Your MySite Account')
+        self.assertEqual(response.status_code, 302)
+
+        self.assertTrue(User.objects.filter(
+            email=self.TEST_DATA['email']).exists())
+
+        user = User.objects.get(email=self.TEST_DATA['email'])
+        self.assertFalse(user.is_active)
+        mocked_method_email.assert_called_once_with(user)
+
+    def test_signup_without_email(self):
+        url = reverse('users:signup')
+        data = dict(self.TEST_DATA, email='test')
+        response = self.client.post(url, data=data)
+
+        self.assertEqual(response.status_code, 200)
+
+        with self.assertRaises(User.DoesNotExist):
+            User.objects.get(email=data['email'])
 
 
 class ActivateAccountViewTestCase(TestCase):

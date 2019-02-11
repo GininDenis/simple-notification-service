@@ -16,5 +16,7 @@ class SubscriptionUpdateFormTestCase(TestCase):
         user = User.objects.first()
         form = SubscriptionUpdateForm(user=user)
 
-        self.assertEqual(list(form.fields['topic'].queryset),
-                         list(Topic.objects.filter(owner__id=user.pk)))
+        form_topic_list = list(form.fields['topic'].queryset)
+        user_topic_list = list(Topic.objects.filter(owner__id=user.pk))
+
+        self.assertEqual(form_topic_list, user_topic_list)
