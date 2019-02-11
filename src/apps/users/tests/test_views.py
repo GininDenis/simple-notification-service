@@ -39,7 +39,7 @@ class SignUpViewTestCase(TestCase):
         self.assertFalse(user.is_active)
         mocked_method_email.assert_called_once_with(user)
 
-    def test_signup_without_email(self):
+    def test_signup_incorrect_email(self):
         url = reverse('users:signup')
         data = dict(self.TEST_DATA, email='test')
         response = self.client.post(url, data=data)

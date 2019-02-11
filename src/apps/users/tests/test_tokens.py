@@ -17,7 +17,6 @@ class TokenTestCase(TestCase):
         generator = AccountActivationTokenGenerator()
         timestamp = generator._num_days(generator._today())
         hash_value = generator._make_hash_value(self.user, timestamp)
-        self.assertEqual(hash_value[0:len(str(self.user.pk))],
-                         str(self.user.pk))
-        self.assertTrue(str(timestamp) in hash_value)
+        self.assertTrue(hash_value.startswith(str(self.user.pk)))
+        self.assertIn(str(timestamp), hash_value)
         self.assertTrue(str(self.user.is_active) in hash_value)
