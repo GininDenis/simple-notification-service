@@ -6,3 +6,4 @@ celery==4.2.1
 redis==3.0.1
 django-extensions==2.1.4
 requests==2.21.0
+model_mommy == 1.6.0

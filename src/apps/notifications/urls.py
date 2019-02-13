@@ -3,7 +3,7 @@ from django.urls import path
 from apps.notifications.views import (
     TopicListView, TopicUpdateView, TopicCreateView,
     SubscriptionListView, SubscriptionUpdateView, SubscriptionCreateView,
-    SubscriptionRemoveView
+    SubscriptionRemoveView, SubscriptionConfirmView
 )
 
 app_name = 'notifications'
@@ -20,4 +20,6 @@ urlpatterns = [
          name='subscription-update'),
     path('subscriptions/remove/<int:pk>/', SubscriptionRemoveView.as_view(),
          name='subscription-remove'),
+    path('subscriptions/confirm/<str:uid>/<str:token>/', SubscriptionConfirmView.as_view(),
+         name='subscription-confirm'),
 ]

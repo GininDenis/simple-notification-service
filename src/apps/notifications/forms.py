@@ -9,9 +9,11 @@ class SubscriptionUpdateForm(forms.ModelForm):
         model = Subscription
         fields = ['topic', 'protocol', 'endpoint']
 
-
     def __init__(self, *args, **kwargs):
         self.current_user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
+        self.fields['topic'].widget.attrs['class'] = 'custom-select'
+        self.fields['protocol'].widget.attrs['class'] = 'custom-select'
+        self.fields['endpoint'].widget.attrs['class'] = 'form-control'
         self.fields['topic'].queryset = Topic.objects.filter(
-            owner=self.current_user)
+            owner_id=self.current_user.id)

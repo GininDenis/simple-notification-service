@@ -1,13 +1,17 @@
 {% extends 'dashboard/base.html' %}
 {% load i18n %}
 
+{% block header %}
+     <h1 class="display-4 text-center mb-3">{% trans 'Delete subscription' %}</h1>
+{% endblock %}
+
 {% block content %}
-    <h1>Delete {{ object.endpoint }}?</h1>
+    <p>Delete <code>{{ object.endpoint }}</code>?</p>
 
     <form method='POST' action=''>
         {% csrf_token %}
-        {% trans 'Are you sure you want to delete this subscription?' %}
-        <input type='submit' value='{% trans 'Yes' %}'/>
-        <a href='{% url 'notifications:subscription-list' %}'>{% trans 'Cancel' %}</a>
+        <p>{% trans 'Are you sure you want to delete this subscription?' %}</p>
+        <input type='submit' class="btn btn-outline-danger" value='{% trans 'Yes' %}'/>
+        <a href='{% url 'notifications:subscription-list' %}' class="btn btn-outline-warning">{% trans 'Cancel' %}</a>
     </form>
 {% endblock %}
