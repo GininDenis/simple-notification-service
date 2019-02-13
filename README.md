@@ -29,18 +29,18 @@ message formats listed below at the time of subscription creation. In the case o
 ####Subscription confirmation:
 ```json
 {
-    "type": "SubscriptionConfirmation",
-    "subscription_url": "str",
-    "token": "str",
-    "message": "please follow the‘ subscription_url ’link"
+  "type": "SubscriptionConfirmation",
+  "subscription_url": "str",
+  "token": "str",
+  "message": "please follow the‘ subscription_url ’link"
  }
 
 ```
 ####Notification:
 ```json
 {
-    "type": "Notification",
-    "message": "please follow the‘ subscription_url ’link"
+  "type": "Notification",
+  "message": "please follow the‘ subscription_url ’link"
 }
 ```
 
