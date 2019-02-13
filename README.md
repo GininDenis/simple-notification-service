@@ -26,7 +26,7 @@ Each endpoint created must be confirmed.
 The specified Endpoint must be able to process the 
 message formats listed below at the time of subscription creation. In the case of a request with the type ConfirmSubscription, confirm the subscription by applying a non-subscription_url using the POST method, the subscription will be considered confirmed or by sending a token to / api / confirm /.
 
-####Subscription confirmation:
+#### Subscription confirmation:
 ```json
 {
   "type": "SubscriptionConfirmation",
@@ -36,7 +36,7 @@ message formats listed below at the time of subscription creation. In the case o
 }
 
 ```
-####Notification:
+#### Notification:
 ```json
 {
   "type": "Notification",
@@ -45,7 +45,7 @@ message formats listed below at the time of subscription creation. In the case o
 ```
 
 
-####Requirements:
+#### Requirements:
 
 - python 3.7
 - redis
