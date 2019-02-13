@@ -1,10 +1,10 @@
-import requests
-import json
-from django.conf import settings
-from django.urls import reverse
-from django.contrib.sites.models import Site
+from typing import Tuple, Dict
 from urllib.parse import urljoin
 
+import requests
+from django.conf import settings
+from django.contrib.sites.models import Site
+from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from rest_framework import status
@@ -17,18 +17,21 @@ from conf.celery_app import app
 def get_endpoint(instance):
     if settings.SUBSCRIPTION_ENDPOINT_DEBUG:
         assert settings.TEST_ENDPOINT_URL, \
-                'You have to define TEST_ENDPOINT_URL in settings when SUBSCRIPTION_ENDPOINT_DEBUG is True'
+                'You have to define TEST_ENDPOINT_URL in settings when ' \
+                'SUBSCRIPTION_ENDPOINT_DEBUG is True'
         return settings.TEST_ENDPOINT_URL
     return instance.endpoint
 
-def create_message(object_id):
+
+def create_message(object_id) -> Tuple[Subscription, Dict]:
     instance = Subscription.objects.get(id=object_id)
     message = {
         'type': 'SubscriptionConfirmation',
         'subscription_url': '',
         'subscription_id': instance.pk,
         'token': instance.token,
-        'message': 'You have to confirm subscription, please follow the ‘subscription_url’ link'
+        'message': 'You have to confirm subscription, please follow the '
+                   '‘subscription_url’ link'
     }
     uid = urlsafe_base64_encode(force_bytes(instance.pk)).decode('utf-8')
     token = subscription_activation_token.make_token(instance)
