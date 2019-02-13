@@ -66,7 +66,7 @@ class ActivateAccountViewTestCase(TestCase):
 
     @patch('apps.users.views.login')
     @patch('apps.users.views.messages.add_message')
-    def test_get(self, mock_message, mock_login):
+    def test_get_method(self, mock_message, mock_login):
         token = account_activation_token.make_token(self.user)
         uid = urlsafe_base64_encode(force_bytes(self.user.pk)).decode('utf-8')
         self.view.get(self.request, uid, token)

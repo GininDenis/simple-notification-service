@@ -9,7 +9,7 @@ from apps.api.views import ConfirmSubscriptionApiView
 
 class ConfirmSubscriptionApiTestCase(TestCase):
 
-    def test_post(self):
+    def test_post_method(self):
         subscription = mommy.make(Subscription)
         view = ConfirmSubscriptionApiView()
         request = namedtuple('request', 'data')
