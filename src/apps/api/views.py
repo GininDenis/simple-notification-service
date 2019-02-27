@@ -1,37 +1,44 @@
 import logging
 
-from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
+from django.contrib.auth import login, logout
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
+from rest_framework.views import APIView
 
-from apps.api.serializers import SubscriptionSerializer, ConfirmationSerializer
-from apps.notifications.models import Subscription
+from apps.api.serializers import LoginSerializer, RestoreSessionSerializer
 
 logger = logging.getLogger(__file__)
 
 
-class TestEndpointView(APIView):
+class TestEndpointApiView(APIView):
     def post(self, request):
         logger.debug(request.POST)
-        return Response(data={}, status=HTTP_200_OK)
+        return Response()
 
 
-class SubscriptionViewSet(CreateModelMixin, DestroyModelMixin, GenericViewSet):
-    serializer_class = SubscriptionSerializer
-
-    def get_queryset(self):
-        return Subscription.objects.filter(topic__owner=self.request.user)
-
-
-class ConfirmSubscriptionApiView(APIView):
+class LoginApiView(APIView):
     def post(self, request):
-        serializer = ConfirmationSerializer(data=request.data)
+        data = request.POST
+        serializer = LoginSerializer(data=data)
         serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user)
+        return Response({'status': 'Login successful'})
 
-        subscription = serializer.validated_data['subscription']
-        subscription.status = Subscription.STATUS_CHOICES.confirmed
-        subscription.save(update_fields=['status'])
 
-        return Response({})
+class LogoutApiView(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request):
+        logout(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class RestoreSessionApiView(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response(RestoreSessionSerializer(self.request.user).data)
