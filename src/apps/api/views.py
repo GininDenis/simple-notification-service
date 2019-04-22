@@ -1,6 +1,7 @@
 import logging
 
 from django.contrib.auth import login, logout
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,13 +14,13 @@ logger = logging.getLogger(__file__)
 
 class TestEndpointApiView(APIView):
     def post(self, request):
-        logger.debug(request.POST)
+        logger.debug(request.data)
         return Response()
 
 
 class LoginApiView(APIView):
     def post(self, request):
-        data = request.POST
+        data = request.data
         serializer = LoginSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
@@ -38,7 +39,11 @@ class LogoutApiView(APIView):
 
 class RestoreSessionApiView(APIView):
 
-    permission_classes = (IsAuthenticated,)
-
     def get(self, request):
-        return Response(RestoreSessionSerializer(self.request.user).data)
+        if request.user.is_authenticated:
+            serialized_data = RestoreSessionSerializer(self.request.user).data
+            serialized_data['is_authenticated'] = True
+        else:
+            serialized_data = RestoreSessionSerializer().data
+            serialized_data['is_authenticated'] = False
+        return Response(serialized_data)

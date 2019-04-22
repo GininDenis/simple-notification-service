@@ -7,3 +7,5 @@ redis==3.0.1
 django-extensions==2.1.4
 requests==2.21.0
 model_mommy == 1.6.0
+selenium == 3.141.0
+django-filter == 2.1.0

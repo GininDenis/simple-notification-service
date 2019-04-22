@@ -8,12 +8,18 @@ from apps.users.models import User
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
+
+    topic_title = serializers.CharField(source='topic.title', read_only=True)
+
     class Meta:
         model = Subscription
-        fields = ['protocol', 'endpoint', 'topic', 'id']
+        fields = ['protocol', 'endpoint', 'topic_title', 'topic', 'id']
 
 
 class TopicSerializer(serializers.ModelSerializer):
+
+    owner = serializers.CharField(source='owner.email', read_only=True)
+
     class Meta:
         model = Topic
         fields = ['id', 'title', 'owner']
@@ -39,7 +45,6 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128)
 
     def validate(self, attrs):
-
         user = authenticate(**attrs)
         if user:
             attrs.update({'user': user})
